@@ -54,7 +54,7 @@ $num = mysqli_num_rows($res1);
 
 if ($num > 0) {
 
-
+     //for fetch single data    
     // $show=mysqli_fetch_assoc($res1);
     // echo var_dump($show)."<br>";
 
