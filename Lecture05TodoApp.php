@@ -115,12 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="editModalLabel">My Note </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
-                    <form action="index.php" method="POST">
+                    <form action="Lecture05TodoApp.php" method="POST">
                         <input type="hidden" name="editid" id="editid">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
