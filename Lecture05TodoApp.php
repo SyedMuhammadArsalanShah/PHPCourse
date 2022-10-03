@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     ?>
 
-    <div class="container" style="margin-top: 50px ;">
+    <div class="container1" style="margin-top: 50px ;">
         <h1>My To Do App</h1>
         <form action="index.php" method="POST">
             <div class="mb-3">
