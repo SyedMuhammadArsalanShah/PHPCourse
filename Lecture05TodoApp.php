@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "not updated";
         }
-    } else {
+    }
+    else {
 
 
         $title = $_POST['title'];
@@ -280,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         element.addEventListener("click", (e) => {
 
-            // console.log("edit sahi chal raha hai humara mubarak ho", e.target.parentNode.parentNode);
+            console.log("edit sahi chal raha hai ", e.target);
             // yeh variable name hai or kuch nahi hai 
             tr = e.target.parentNode.parentNode;
             title = tr.getElementsByTagName("td")[1].innerText;
