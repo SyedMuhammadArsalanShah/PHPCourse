@@ -166,9 +166,6 @@ if ($numcounter > 0) {
                 <button>Delete</button></td></tr>";
             }
 
-
-
-
             ?>
         </tbody>
     </table>
