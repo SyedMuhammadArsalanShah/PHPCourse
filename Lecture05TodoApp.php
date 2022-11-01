@@ -1,56 +1,58 @@
-<!-- shift alt f => code formatting -->
-<!-- database work -->
-
-<!-- 
-create database todoapp
-
-
--- for use database
-use school 
--- for create table 
-
-create table info(
-
-Id int identity(1,1) primary key not null,
-Title nvarchar(100),
-description Text(10000),
-date DATETIME DEFAULT current_timestamp()
-) 
- -->
-
-
-
-
-
-
 <?php
+
 $insert = false;
 $update = false;
 $delete = false;
 
 
 
-
-
 $server = "localhost";
 $username = "root";
-$password = "";
-$database = "todoapp";
+$pass = "";
+
+$database = "ToDolist";
+$con = mysqli_connect($server, $username, $pass, $database);
+
+// $sql = "create database ToDolist";
+// $resdata = mysqli_query($con, $sql);
+// if ($resdata) {
+
+//     echo "  succuessfuly created database <br>";
+// } else {
+
+//     echo "  notcreated database <br>";
+// }
 
 
-//create connection
 
-$con = mysqli_connect($server, $username, $password, $database);
 
 
 if (!$con) {
     die("failed connection " . mysqli_connect_error());
+} else {
+    echo "connection was successful<br>";
 }
 
 
 
 
+// $sql="create table info(
+//     Id int auto_increment primary key not null,
+//     Title nvarchar(100), description Text(10000),
+//     date DATETIME DEFAULT current_timestamp())";
+
+// $resdata = mysqli_query($con, $sql);
+// if ($resdata) {
+
+//     echo "  succuessfuly created table <br>";
+// } else {
+
+//     echo "  notcreated table <br>";
+// }
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+
     if (isset($_POST['editid'])) {
 
 
@@ -65,21 +67,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "not updated";
         }
-    }
-    else {
-
-
+    } else {
         $title = $_POST['title'];
         $des = $_POST['des'];
         $sql = "Insert into info(title, description)values('$title', '$des')";
         $res = mysqli_query($con, $sql);
 
         if ($res) {
-
             // echo "  succuessfuly inserted <br>";
-
-
-
             $insert = true;
         } else {
 
@@ -88,30 +83,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
-
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>To Do App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <!-- datatable.net cdn for css -->
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- jquery -->
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
 
 <body>
 
-
-
-    <!-- Button trigger modal
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
         Launch demo modal
     </button> -->
 
-    <!-- Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -121,7 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="modal-body">
 
-                    <form action="Lecture05TodoApp.php" method="POST">
+                    <form action="Lecture05ToDoApp.php" method="POST">
+                        <!-- for fetech data -->
                         <input type="hidden" name="editid" id="editid">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -144,9 +135,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">To Do App</a>
+            <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -156,10 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#">Link</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link ">contact</a>
+                        <a class="nav-link disabled">contact</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -170,27 +163,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </nav>
 
+
     <?php
     if ($insert) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
     <strong>Success!</strong> Your task has been successfully added.
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-  </div>";
+   </div>";
     }
+    ?>
 
-
-
+<?php
     if ($update) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
     <strong>Success!</strong> Your task has been successfully updated.
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-  </div>";
+   </div>";
     }
     ?>
-
-    <div class="container1" style="margin-top: 50px ;">
+    <div class="container" style="margin-top: 50px ;">
         <h1>My To Do App</h1>
-        <form action="index.php" method="POST">
+        <form action="Lecture05ToDoApp.php" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
@@ -200,14 +193,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <textarea class="form-control" placeholder="Leave a comment here" name="des" id="des"></textarea>
                 <label for="des">Description</label>
             </div>
-
             <button style="margin-top: 10px ;" type="submit" class="btn btn-primary">Submit</button>
         </form>
-
-
-
     </div>
+
+
+
+
     <div class="container" style="margin-top: 50px ;">
+
         <table class="table" id="myTable">
             <thead>
                 <tr>
@@ -223,18 +217,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php
                 $selectsql = "select * from info ";
                 $select = mysqli_query($con, $selectsql);
-                $num = mysqli_num_rows($select);
+                $num = mysqli_num_rows($select); // rows count
                 if ($num > 0) {
 
                     while ($show = mysqli_fetch_assoc($select)) {
 
                         // echo var_dump($show) . "<br>";
 
-                        echo "<tr><td>" . $show['id'] . "</td>";
-                        echo "<td>" . $show['title'] . "</td>";
+                        echo "<tr><td>" . $show['Id'] . "</td>";
+                        echo "<td>" . $show['Title'] . "</td>";
                         echo "<td>" . $show['description'] . "</td>";
                         echo "<td> 
-                    <button type='button' class='edit btn btn-dark'id=" . $show['id'] . ">Edit</button>
+                    <button type='button' class='edit btn btn-dark'id=" . $show['Id'] . ">Edit</button>
                     <button type='button' class='btn btn-dark'>Delete</button>
                     </td> 
                      </tr>";
@@ -254,53 +248,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
 
-</body>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-
-<!-- jquery cdn link -->
-<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-
-<!-- js cdn link for datatable -->
-<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-</script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js">
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
 
 
 
-<script>
-    edits = document.getElementsByClassName('edit');
 
 
-    Array.from(edits).forEach((element) => {
 
-        element.addEventListener("click", (e) => {
 
-            console.log("edit sahi chal raha hai ", e.target);
-            // yeh variable name hai or kuch nahi hai 
-            tr = e.target.parentNode.parentNode;
-            title = tr.getElementsByTagName("td")[1].innerText;
-            des = tr.getElementsByTagName("td")[2].innerText;
-            console.log(title, des)
-            titleEditt.value = title;
-            desEdit.value = des;
-            editid.value = e.target.id;
-            console.log("bhai yeh id hai laiba", e.target.id)
-            $('#editModal').modal('toggle');
+    <script>
+        edits = document.getElementsByClassName('edit');
 
+
+        Array.from(edits).forEach((element) => {
+
+            element.addEventListener("click", (e) => {
+
+                // console.log("edit sahi chal raha hai humara mubarak ho", e.target.parentNode.parentNode);
+                // yeh variable name hai or kuch nahi hai 
+                tr = e.target.parentNode.parentNode;
+                title = tr.getElementsByTagName("td")[1].innerText;
+                des = tr.getElementsByTagName("td")[2].innerText;
+                console.log(title, des)
+                titleEditt.value = title;
+                desEdit.value = des;
+                editid.value = e.target.id;
+                console.log("id is working now", e.target.id)
+                $('#editModal').modal('toggle');
+
+            })
         })
-    })
-</script>
+    </script>
 
-
-
-
-
-
+</body>
 
 </html>
