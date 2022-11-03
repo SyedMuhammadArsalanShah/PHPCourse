@@ -1,0 +1,115 @@
+
+<html>
+    <head>
+    
+    <style> 
+    
+    button{
+    background-color: #e0e0e0;
+    height: 50px;
+    width: 50px;
+    color:black;
+    font-size: 30;
+    border-radius: 100px;
+    margin: 2px;
+    
+    }
+    input{
+    padding: 30px; 
+    
+    background-color:white;
+    height: 80px;
+    width:230px;
+    color:black;
+    font-size: 30;
+    border-radius: 20px;
+    }
+    
+    
+    
+    
+    
+    
+    div{
+     border: 1px solid black;
+     width :250px;
+    background-color:#bdbdbd;
+    text-align: center;
+    color: black;
+    
+    border-radius: 20px;
+    
+    
+    
+    
+    
+    
+    }
+    #per{
+    background-color:#0d47a1 ;
+    color: white;
+    
+    }
+    #green{ color: white;}
+    </style>
+    </head>
+    <body>
+        <div>
+      <h1>Calculator</h1>      
+    <input type="text"  id="cal"  placeholder="0"/>
+    <br>
+    <br>
+    <button onclick=" document.getElementById('cal').value+=1">1</button> 
+    <button onclick=" document.getElementById('cal').value+='2'">2</button> 
+    <button onclick=" document.getElementById('cal').value+='3'">3</button> 
+    <button id="per"  onclick=" document.getElementById('cal').value+='-'">-</button> 
+    <br>
+    <button onclick=" document.getElementById('cal').value+='4'">4</button> 
+    <button onclick=" document.getElementById('cal').value+='5'">5</button> 
+    <button onclick=" document.getElementById('cal').value+='6'">6</button> 
+    <button  id="per" onclick=" document.getElementById('cal').value+='*'">*</button> 
+    <br>
+    <button onclick=" document.getElementById('cal').value+='7'">7</button> 
+    <button onclick=" document.getElementById('cal').value+='8'">8</button> 
+    <button onclick=" document.getElementById('cal').value+='9'">9</button> 
+    <button id="per"  onclick=" document.getElementById('cal').value+='/'">/</button> 
+    
+    <br>
+    <br>
+    
+    <button onclick=" document.getElementById('cal').value+='0'"
+    
+    >0</button> 
+    <button onclick=" document.getElementById('cal').value=''">c</button> 
+    <button onclick=" document.getElementById('cal').value = eval(document.getElementById('cal').value)">=</button>
+    <button id="green" onclick=" document.getElementById('cal').value+='+'" >+</button> 
+    <br> 
+    </div>
+    
+    
+    
+    
+    
+    <script>
+    
+    document.getElementById("green").style.backgroundColor="green"  ; 
+    document.getElementById("green").style.height="80px";  </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </body>
+    
+    

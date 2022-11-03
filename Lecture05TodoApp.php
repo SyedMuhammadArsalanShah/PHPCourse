@@ -30,7 +30,7 @@ $con = mysqli_connect($server, $username, $pass, $database);
 if (!$con) {
     die("failed connection " . mysqli_connect_error());
 } else {
-    echo "connection was successful<br>";
+    // echo "connection was successful<br>";
 }
 
 
@@ -50,6 +50,17 @@ if (!$con) {
 //     echo "  notcreated table <br>";
 // }
 
+
+if (isset($_GET['delete'])) {
+
+    $sno = $_GET['delete'];
+    $sql = "Delete from info where Id= $sno";
+    $result = mysqli_query($con, $sql);
+    $delete = true;
+}
+
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
@@ -67,7 +78,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "not updated";
         }
-    } else {
+    }
+
+
+    // delete  all data 
+    else if (isset($_POST['del'])) {
+
+
+        $sql = "Delete from info";
+        $result = mysqli_query($con, $sql);
+        $delete = true;
+    }
+
+    // post  all data 
+    else {
         $title = $_POST['title'];
         $des = $_POST['des'];
         $sql = "Insert into info(title, description)values('$title', '$des')";
@@ -94,6 +118,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- jquery -->
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1622126807280-9b5b32b28e77?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80');
+        background-size: cover;
+    }
+</style>
 
 <body>
 
@@ -173,90 +203,107 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     ?>
 
-<?php
+    <?php
     if ($update) {
-        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+        echo "<div class='alert alert-primary alert-dismissible fade show' role='alert'>
     <strong>Success!</strong> Your task has been successfully updated.
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
    </div>";
     }
     ?>
-    <div class="container" style="margin-top: 50px ;">
-        <h1>My To Do App</h1>
-        <form action="Lecture05ToDoApp.php" method="POST">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
 
-            </div>
-            <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" name="des" id="des"></textarea>
-                <label for="des">Description</label>
-            </div>
-            <button style="margin-top: 10px ;" type="submit" class="btn btn-primary">Submit</button>
-        </form>
+    <?php
+    if ($delete) {
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    <strong>Success!</strong> Your task has been successfully deleted.
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+   </div>";
+    }
+    ?>
+    <div class="container" style="margin-top: 50px ; background-color: transparent;">
+        <div class="container" style="margin-top: 50px ;">
+            <h1>My To Do App</h1>
+            <form action="Lecture05ToDoApp.php" method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
+
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" name="des" id="des"></textarea>
+                    <label for="des">Description</label>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button style="margin-top: 10px ;" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="container" style="margin-top: 50px ;">
+            <form action="Lecture05ToDoApp.php" method="POST">
+                <input type="hidden" name="del">
+                <div class="d-grid gap-2 col-6 mx-auto">
+
+                    <button class="btn btn-danger" type="submit">Delete All </button>
+                </div>
+
+            </form>
+        </div>
     </div>
+        <div class="container mt-4">
+            <table id="myTable" class="table table-success table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Option</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // **** FETCH DATA IN TABULAR FORMAT ****
+                    $sqlselect = "select *from info ";
+                    $res = mysqli_query($con, $sqlselect);
+                    $count = 1;
+                    while ($show = mysqli_fetch_assoc($res)) {
 
 
 
+                        // echo "<br>total rows".var_dump($show);
 
-    <div class="container" style="margin-top: 50px ;">
+                        echo "<tr>
+                    
+                    <td>" . $count++ . "</td>";
+                        echo " <td>" . $show['Title'] . "</td>";
+                        echo " <td>" . $show['description'] . "</td>";
 
-        <table class="table" id="myTable">
-            <thead>
-                <tr>
-                    <th scope="col">#sno</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-
-
-                <?php
-                $selectsql = "select * from info ";
-                $select = mysqli_query($con, $selectsql);
-                $num = mysqli_num_rows($select); // rows count
-                if ($num > 0) {
-
-                    while ($show = mysqli_fetch_assoc($select)) {
-
-                        // echo var_dump($show) . "<br>";
-
-                        echo "<tr><td>" . $show['Id'] . "</td>";
-                        echo "<td>" . $show['Title'] . "</td>";
-                        echo "<td>" . $show['description'] . "</td>";
-                        echo "<td> 
-                    <button type='button' class='edit btn btn-dark'id=" . $show['Id'] . ">Edit</button>
-                    <button type='button' class='btn btn-dark'>Delete</button>
-                    </td> 
-                     </tr>";
+                        echo "<td>
+                    
+                    <button type='button' class='btn btn-primary edit' id=" . $show['Id'] . ">Edit</button>
+                    <button type='button' class='btn btn-danger  delete' id=d" . $show['Id'] . ">Delete</button>
+                    
+                    </td>
+                    
+                    </tr>";
                     }
-                }
-
-                ?>
 
 
+                    ?>
+                </tbody>
+            </table>
 
-            </tbody>
-        </table>
-
-
-
-
-    </div>
+        </div>
 
 
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js">
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
-        });
-    </script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js">
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+        </script>
 
 
 
@@ -264,29 +311,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-    <script>
-        edits = document.getElementsByClassName('edit');
+        <script>
+            edits = document.getElementsByClassName('edit');
 
 
-        Array.from(edits).forEach((element) => {
+            Array.from(edits).forEach((element) => {
 
-            element.addEventListener("click", (e) => {
+                element.addEventListener("click", (e) => {
 
-                // console.log("edit sahi chal raha hai humara mubarak ho", e.target.parentNode.parentNode);
-                // yeh variable name hai or kuch nahi hai 
-                tr = e.target.parentNode.parentNode;
-                title = tr.getElementsByTagName("td")[1].innerText;
-                des = tr.getElementsByTagName("td")[2].innerText;
-                console.log(title, des)
-                titleEditt.value = title;
-                desEdit.value = des;
-                editid.value = e.target.id;
-                console.log("id is working now", e.target.id)
-                $('#editModal').modal('toggle');
+                    // console.log("edit sahi chal raha hai humara mubarak ho", e.target.parentNode.parentNode);
+                    // yeh variable name hai or kuch nahi hai 
+                    tr = e.target.parentNode.parentNode;
+                    title = tr.getElementsByTagName("td")[1].innerText;
+                    des = tr.getElementsByTagName("td")[2].innerText;
+                    console.log(title, des)
+                    titleEditt.value = title;
+                    desEdit.value = des;
+                    editid.value = e.target.id;
+                    console.log("id is working now", e.target.id)
+                    $('#editModal').modal('toggle');
 
+
+                })
             })
-        })
-    </script>
+
+            deletes = document.getElementsByClassName('delete');
+
+
+            Array.from(deletes).forEach((element) => {
+
+                element.addEventListener("click", (e) => {
+
+                    console.log("my delete btn is working ")
+                    sno = e.target.id.substr(1);
+                    if (confirm("Are you sure want to delete this task")) {
+                        console.log("yes");
+                        window.location = `/phpcourse/Lecture05ToDoApp.php?delete=${sno}`;
+                    } else {
+                        console.log("no")
+                    }
+
+
+
+
+                })
+            })
+        </script>
 
 </body>
 
