@@ -120,8 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <style>
     body {
-        background-image: url('https://images.unsplash.com/photo-1622126807280-9b5b32b28e77?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80');
-        background-size: cover;
+        /* background-image: url('https://images.unsplash.com/photo-1622126807280-9b5b32b28e77?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80');
+        background-size: cover; */
     }
 </style>
 
@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </div>
     </div>
-        <div class="container mt-4">
+        <div class="container mt-4 table-success">
             <table id="myTable" class="table table-success table-hover">
                 <thead>
                     <tr>

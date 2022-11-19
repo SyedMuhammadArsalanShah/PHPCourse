@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 
+
 <body>
 
     <h1>Laiba</h1>
@@ -124,8 +125,10 @@
 
     define("laiba", 2002);
     define("PI", 3.14);
+    define("bilal", "kahtrnak bacha");
     echo laiba;
     echo PI;
+    echo "<br>".bilal;
 
 
 
